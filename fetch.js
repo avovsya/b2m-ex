@@ -2,6 +2,10 @@ var http = require('http'),
     Parser = require('feedparser'),
     parser = new Parser();
 
+exports = function (callback) {
+
+};
+
 http.get({ host: 'feeds.bbci.co.uk', port: 80, path: '/news/rss.xml' }, function (res) {
     res.pipe(parser);
 }).on('error', function () {

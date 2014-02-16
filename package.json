@@ -13,6 +13,7 @@
   "author": "Artem Vovsya",
   "license": "BSD",
   "dependencies": {
-    "feedparser": "~0.16.6"
+    "feedparser": "~0.16.6",
+    "ejs": "~0.8.5"
   }
 }
