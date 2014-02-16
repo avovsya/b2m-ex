@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>BBC and SKY top news</title>
+    </head>
+    <body>
+        <section>
+            <h1>BBC News</h1>
+            <% for (var i=0; i<bbc.length; i++) { %>
+                <article>
+                    <h2> <%= bbc[i].title %> </h2>
+                </article>
+            <% } %>
+        </section>
+        <section>
+            <h1>SKY News</h1>
+            <% for (var i=0; i<sky.length; i++) { %>
+                <article>
+                    <h2> <%= sky[i].title %> </h2>
+                </article>
+            <% } %>
+        </section>
+    </body>
+</html>
