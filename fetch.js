@@ -1,7 +1,5 @@
 var http = require('http'),
-    Parser = require('feedparser'),
-    parser = new Parser();
-
+    Parser = require('feedparser');
 
 module.exports = function fetch (callback) {
     var bbcNews = [],
@@ -12,15 +10,11 @@ module.exports = function fetch (callback) {
 
     http.get({ host: 'feeds.bbci.co.uk', port: 80, path: '/news/rss.xml' }, function (res) {
         res.pipe(bbcParser);
-    }).on('error', function () {
-        console.log('Something went wrong while requesting BBC.COM');
-    });
+    }).on('error', onError);
 
     http.get({ host: 'news.sky.com', port: 80, path: '/feeds/rss/home.xml' }, function (res) {
         res.pipe(skyParser);
-    }).on('error', function () {
-        console.log('Something went wrong while requesting SKY.COM');
-    });
+    }).on('error', onError);
 
     bbcParser.on('readable', function () {
         while(headline = this.read()) {
@@ -37,10 +31,17 @@ module.exports = function fetch (callback) {
     function parserFinished() {
         parserEnd++;
         if(parserEnd >= 2) {
-            callback(bbcNews, skyNews);
+            callback(null, bbcNews, skyNews);
         }
+    }
+
+    function onError() {
+        callback('Oops. Something went wrong. Try again later');
     }
 
     bbcParser.on('end', parserFinished);
     skyParser.on('end', parserFinished);
+
+    bbcParser.on('error', onError);
+    skyParser.on('error', onError);
 };

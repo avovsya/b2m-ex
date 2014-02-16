@@ -6,7 +6,13 @@ var http = require('http'),
     port = Number(process.env.PORT || 5000);
 
 http.createServer(function (req, res) {
-    fetch(function (bbc, sky) {
+    fetch(function (err, bbc, sky) {
+        if(err) {
+            res.writeHead(500);
+            res.end();
+            return;
+        }
+
         var content = ejs.render(html, {
             bbc: bbc.slice(0, 10),
             sky: sky.slice(0, 10)
